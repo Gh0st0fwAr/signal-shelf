@@ -1,0 +1,124 @@
+/* Layout shell */
+.shell {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+}
+
+.shell__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+  animation: rise 0.7s var(--ease) both;
+}
+
+.shell__brand {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.shell__eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.shell__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--ink);
+}
+
+.shell__tagline {
+  margin: 0.15rem 0 0;
+  max-width: 34ch;
+  color: var(--ink-soft);
+  font-size: 1.02rem;
+}
+
+.shell__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.shell__nav a,
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 2.6rem;
+  padding: 0.55rem 1.05rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: transform 0.25s var(--ease), background 0.25s var(--ease), border-color 0.25s var(--ease);
+  backdrop-filter: blur(10px);
+}
+
+.shell__nav a:hover,
+.btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(201, 160, 96, 0.35);
+  background: var(--surface-solid);
+}
+
+.shell__nav a.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #111318;
+}
+
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #111318;
+}
+
+.btn--primary:hover {
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
+  color: #111318;
+}
+
+.shell__main {
+  animation: rise 0.75s var(--ease) 0.08s both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .shell {
+    width: min(1120px, calc(100% - 1.25rem));
+    padding-top: 1.4rem;
+  }
+
+  .shell__top {
+    margin-bottom: 1.6rem;
+  }
+}
