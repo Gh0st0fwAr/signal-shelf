@@ -4,16 +4,14 @@ import { DetailPage } from './pages/DetailPage'
 import { EditPage } from './pages/EditPage'
 import { ListPage } from './pages/ListPage'
 import { useShelfItems } from './hooks/useShelfItems'
-// import type { ShelfItem } from './data/types'
-// import { mockItems } from './data/mockItems'
 import './styles/layout.css'
 import './styles/shelf.css'
 
-// const KEY = 'shelf-card-items'
-const { items, addItem, deleteItem } = useShelfItems()
 
 export default function App() {
-
+  
+  const { items, addItem, deleteItem } = useShelfItems()
+  
   return (
     <BrowserRouter>
       <AppShell>

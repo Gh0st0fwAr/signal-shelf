@@ -28,7 +28,7 @@
 - [x] **3. Форма create** — controlled inputs на `/new`
 - [x] **4. CRUD в памяти** — add / delete (пока без persist)
 - [x] **5. Persist** — `useEffect` + `localStorage`
-- [ ] **6. Custom hook** — `useShelfItems`
+- [x] **6. Custom hook** — `useShelfItems`
 - [ ] **7. Detail** — `/item/:id`, поиск по id
 - [ ] **8. Edit route** — `/item/:id/edit`
 - [ ] **9. TanStack Query** — async-адаптер storage
