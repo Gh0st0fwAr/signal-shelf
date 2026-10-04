@@ -18,7 +18,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<ListPage items={items} onDelete={deleteItem} />} />
           <Route path="/new" element={<EditPage mode='create' onAdd={addItem} />} />
-          <Route path="/item/:id" element={<DetailPage />} />
+          <Route path="/item/:id" element={<DetailPage items={items} />} />
           <Route path="/item/:id/edit" element={<EditPage mode="edit" />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

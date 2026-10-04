@@ -29,7 +29,7 @@
 - [x] **4. CRUD в памяти** — add / delete (пока без persist)
 - [x] **5. Persist** — `useEffect` + `localStorage`
 - [x] **6. Custom hook** — `useShelfItems`
-- [ ] **7. Detail** — `/item/:id`, поиск по id
+- [x] **7. Detail** — `/item/:id`, поиск по id
 - [ ] **8. Edit route** — `/item/:id/edit`
 - [ ] **9. TanStack Query** — async-адаптер storage
 - [ ] **10. Context** — UI prefs (density / accent)
