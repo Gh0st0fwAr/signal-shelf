@@ -1,10 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import type { ShelfItem, ShelfStatus } from '../data/types'
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 type EditPageProps = {
   mode: 'create' | 'edit',
-  onAdd?: (item: ShelfItem) => void
+  items?: ShelfItem[],
+  onAdd?: (item: ShelfItem) => void,
+  onUpdate?: (item: ShelfItem) => void
 }
 
 /** Значения полей формы (UI). tags — строка, в ShelfItem станет string[]. */
@@ -36,9 +40,11 @@ function isHttpUrl(value: string): boolean {
  * Шаг 3: create-форма на react-hook-form.
  * Edit по id — шаг 8 (пока те же поля, без загрузки item).
  */
-export function EditPage({ mode, onAdd }: EditPageProps) {
+export function EditPage({ mode, items, onAdd, onUpdate }: EditPageProps) {
   const pageTitle = mode === 'create' ? 'Новый сигнал' : 'Редактирование'
   const navigate = useNavigate();
+  const id = useParams().id;
+  const existing = mode === 'edit' ? items?.find((item) => item.id ===id) : undefined;
 
   const {
     register,
@@ -55,6 +61,29 @@ export function EditPage({ mode, onAdd }: EditPageProps) {
     },
   })
 
+  useEffect(() => {
+    
+    if (mode !== 'edit') return;
+    if (!existing) return;
+    
+    reset({
+      title: existing.title,
+      url: existing.url,
+      note: existing.note,
+      tagsText: existing.tags.join(','),
+      status: existing.status,
+    }) 
+  }, [mode, existing, reset])
+
+  if (mode === 'edit' && !existing) {
+    return (
+      <article className="panel">
+        <h2 className="panel__title">Не найдено</h2>
+        <Link className="btn" to="/">← К полке</Link>
+      </article>
+    )
+  }
+
   const onSubmit = (data: FormValues) => {
     // шаг 3: собираем item и логируем; add в полку — шаг 4
     const item: ShelfItem = {
@@ -66,10 +95,25 @@ export function EditPage({ mode, onAdd }: EditPageProps) {
       status: data.status,
       createdAt: new Date().toISOString(),
     }
-    // console.log(item)
+
     reset();
     onAdd(item);
     navigate('/');
+  }
+
+  const onUpdateSubmit = (data: FormValues) => {
+    const item: ShelfItem = {
+      id: existing.id,
+      createdAt: existing.createdAt,
+      title: data.title.trim(),
+      url: data.url.trim(),
+      note: data.note.trim(),
+      tags: parseTags(data.tagsText),
+      status: data.status
+    }
+    reset();
+    onUpdate(item);
+    navigate(`/item/${existing.id}`);
   }
 
   return (
@@ -81,7 +125,7 @@ export function EditPage({ mode, onAdd }: EditPageProps) {
       <h2 className="panel__title">{pageTitle}</h2>
       <p className="panel__muted">Controlled через RHF (<code>register</code>), не ручной useState.</p>
 
-      <form className="form-grid" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form className="form-grid" onSubmit={mode === "create" ? handleSubmit(onSubmit) : handleSubmit(onUpdateSubmit)} noValidate>
         <div className="field">
           <label htmlFor="title">Title</label>
           <input

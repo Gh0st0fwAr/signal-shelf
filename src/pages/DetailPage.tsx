@@ -22,15 +22,12 @@ export function DetailPage({ items }: DetailPageProps) {
 
   return (
     <article className="panel">
-      {/* <div className="todo-banner">
-        <strong>Шаг 7.</strong> Найди элемент по <code>id</code> и заполни панель. Сейчас — заглушка.
-      </div> */}
       <p className="shell__eyebrow">Signal · detail</p>
-      {/* <h2 className="panel__title">Материал #{id}</h2> */}
-      <p className="panel__title">{item.title}</p>
+      <h2 className="panel__title">{item.title}</h2>
       <p className="panel__note">{item.note}</p>
       {item.tags.map(tag => <span className="tag" key={tag}>{tag}</span>)}
       <p className="panel__status">{item.status}</p>
+      <a className="btn" href={item.url} target="_blank" rel="noreferrer">{item.url}</a>
       
       <div className="detail-actions">
         <Link className="btn" to="/">

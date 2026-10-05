@@ -27,6 +27,9 @@ export function useShelfItems() {
 
     const addItem = (item: ShelfItem) => setItems(prev => [item, ...prev])
     const deleteItem = (id: string) => setItems(prev => prev.filter((item) => item.id !== id))
+    const updateItem = (next: ShelfItem) => {
+        setItems(prev => prev.map(item => item.id === next.id ? next : item))
+    }
 
-    return { items, addItem, deleteItem }
+    return { items, addItem, deleteItem, updateItem }
 }
