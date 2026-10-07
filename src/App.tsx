@@ -30,7 +30,7 @@ export default function App() {
   } = useShelfItems()
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <AppShell>
         <Routes>
           <Route

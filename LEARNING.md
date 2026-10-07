@@ -34,7 +34,7 @@
 - [x] **9. TanStack Query** — async-адаптер storage
 - [x] **10. Context** — UI prefs (density / accent)
 - [x] **11. UX states** — empty / error / loading по уму
-- [ ] **12. Deploy + README** — текст для портфолио
+- [x] **12. Deploy + README** — текст для портфолио
 
 ## Полезные пути
 
