@@ -162,20 +162,6 @@
   color: var(--ink-soft);
 }
 
-.todo-banner {
-  margin-bottom: 1.25rem;
-  padding: 1rem 1.15rem;
-  border-radius: var(--radius-sm);
-  border: 1px dashed rgba(201, 160, 96, 0.4);
-  background: rgba(201, 160, 96, 0.07);
-  color: var(--accent);
-  font-size: 0.95rem;
-}
-
-.todo-banner code {
-  font-size: 0.88em;
-}
-
 .empty {
   display: grid;
   place-items: center;
@@ -282,4 +268,15 @@
     border-color: var(--accent);
     color: #111318;
   }
+}
+
+.shell[data-density='compact'] .shelf-grid {
+  gap: 0.65rem;
+}
+.shell[data-density='compact'] .shelf-card {
+  gap: 0.55rem;
+  padding: 0.85rem 0.95rem;
+}
+.shell[data-density='compact'] .panel {
+  padding: 1rem;
 }

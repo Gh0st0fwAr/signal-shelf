@@ -1,6 +1,5 @@
 import type { ShelfItem } from './types'
 
-/** Стартовые данные для шагов 1–4. Позже заменишь на storage/query. */
 export const mockItems: ShelfItem[] = [
   {
     id: '1',
@@ -15,7 +14,7 @@ export const mockItems: ShelfItem[] = [
     id: '2',
     title: 'You Might Not Need an Effect',
     url: 'https://react.dev/learn/you-might-not-need-an-effect',
-    note: 'Антипаттерны useEffect — must-read перед шагом 5.',
+    note: 'Антипаттерны useEffect — must-read.',
     tags: ['react', 'hooks'],
     status: 'to-read',
     createdAt: '2026-09-02T12:00:00.000Z',
@@ -40,8 +39,8 @@ export const mockItems: ShelfItem[] = [
   {
     id: '5',
     title: 'CSS for Designers Who Hate CSS — layout notes',
-    note: 'В Signal Shelf вёрстку делает наставник; тебе — логика.',
-    tags: ['css', 'meta'],
+    note: 'Короткие заметки по сетке и токенам.',
+    tags: ['css'],
     status: 'done',
     createdAt: '2026-08-20T14:00:00.000Z',
   },

@@ -20,6 +20,17 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.shell[data-accent='warm'] {
+  --accent: #c9a060;
+  --accent-deep: #a07840;
+  --accent-glow: rgba(201, 160, 96, 0.15);
+}
+.shell[data-accent='cool'] {
+  --accent: #7a9bb8;
+  --accent-deep: #5a7a96;
+  --accent-glow: rgba(122, 155, 184, 0.18);
+}
+
 *,
 *::before,
 *::after {

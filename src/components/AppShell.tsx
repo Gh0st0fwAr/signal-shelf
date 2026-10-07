@@ -1,18 +1,20 @@
 import { Link, NavLink } from 'react-router-dom'
 import type { ReactNode } from 'react'
+import { useUiPrefs } from '../App'
 
 type AppShellProps = {
   children: ReactNode
-  /** Краткий подзаголовок под брендом */
   tagline?: string
 }
 
 export function AppShell({
   children,
-  tagline = 'Личная полка материалов — pet на React + TypeScript',
+  tagline = 'Личная полка материалов — React + TypeScript',
 }: AppShellProps) {
+  const { density, accent, setDensity, setAccent } = useUiPrefs()
+
   return (
-    <div className="shell">
+    <div className="shell" data-accent={accent} data-density={density}>
       <header className="shell__top">
         <div className="shell__brand">
           <p className="shell__eyebrow">Portfolio pet</p>
@@ -27,6 +29,8 @@ export function AppShell({
           <Link className="btn btn--primary" to="/new">
             + Новый сигнал
           </Link>
+          <button className="btn" onClick={() => setDensity(density === 'comfortable' ? 'compact' : 'comfortable')}>Size</button>
+          <button className="btn" onClick={() => setAccent(accent === 'warm' ? 'cool' : 'warm')}>Accent</button>
         </nav>
       </header>
       <main className="shell__main">{children}</main>

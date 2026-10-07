@@ -5,13 +5,16 @@ import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 type EditPageProps = {
-  mode: 'create' | 'edit',
-  items?: ShelfItem[],
-  onAdd?: (item: ShelfItem) => void,
+  mode: 'create' | 'edit'
+  items?: ShelfItem[]
+  isPending?: boolean
+  isError?: boolean
+  error?: Error | null
+  onRefetch?: () => void
+  onAdd?: (item: ShelfItem) => void
   onUpdate?: (item: ShelfItem) => void
 }
 
-/** Значения полей формы (UI). tags — строка, в ShelfItem станет string[]. */
 type FormValues = {
   title: string
   url: string
@@ -36,15 +39,20 @@ function isHttpUrl(value: string): boolean {
   }
 }
 
-/**
- * Шаг 3: create-форма на react-hook-form.
- * Edit по id — шаг 8 (пока те же поля, без загрузки item).
- */
-export function EditPage({ mode, items, onAdd, onUpdate }: EditPageProps) {
+export function EditPage({
+  mode,
+  items,
+  isPending = false,
+  isError = false,
+  error = null,
+  onRefetch,
+  onAdd,
+  onUpdate,
+}: EditPageProps) {
   const pageTitle = mode === 'create' ? 'Новый сигнал' : 'Редактирование'
-  const navigate = useNavigate();
-  const id = useParams().id;
-  const existing = mode === 'edit' ? items?.find((item) => item.id ===id) : undefined;
+  const navigate = useNavigate()
+  const id = useParams().id
+  const existing = mode === 'edit' ? items?.find((item) => item.id === id) : undefined
 
   const {
     register,
@@ -62,30 +70,55 @@ export function EditPage({ mode, items, onAdd, onUpdate }: EditPageProps) {
   })
 
   useEffect(() => {
-    
-    if (mode !== 'edit') return;
-    if (!existing) return;
-    
+    if (mode !== 'edit') return
+    if (!existing) return
+
     reset({
       title: existing.title,
       url: existing.url,
       note: existing.note,
       tagsText: existing.tags.join(','),
       status: existing.status,
-    }) 
+    })
   }, [mode, existing, reset])
+
+  if (mode === 'edit' && isError) {
+    return (
+      <article className="panel">
+        <h2 className="panel__title">Не удалось загрузить</h2>
+        <p>{error?.message ?? 'Неизвестная ошибка'}</p>
+        {onRefetch ? (
+          <button type="button" className="btn btn--primary" onClick={() => onRefetch()}>
+            Повторить
+          </button>
+        ) : null}
+        <Link className="btn" to="/">
+          ← К полке
+        </Link>
+      </article>
+    )
+  }
+
+  if (mode === 'edit' && isPending) {
+    return (
+      <article className="panel">
+        <h2 className="panel__title">Загрузка…</h2>
+      </article>
+    )
+  }
 
   if (mode === 'edit' && !existing) {
     return (
       <article className="panel">
         <h2 className="panel__title">Не найдено</h2>
-        <Link className="btn" to="/">← К полке</Link>
+        <Link className="btn" to="/">
+          ← К полке
+        </Link>
       </article>
     )
   }
 
   const onSubmit = (data: FormValues) => {
-    // шаг 3: собираем item и логируем; add в полку — шаг 4
     const item: ShelfItem = {
       id: crypto.randomUUID(),
       title: data.title.trim(),
@@ -96,12 +129,13 @@ export function EditPage({ mode, items, onAdd, onUpdate }: EditPageProps) {
       createdAt: new Date().toISOString(),
     }
 
-    reset();
-    onAdd(item);
-    navigate('/');
+    reset()
+    onAdd?.(item)
+    navigate('/')
   }
 
   const onUpdateSubmit = (data: FormValues) => {
+    if (!existing) return
     const item: ShelfItem = {
       id: existing.id,
       createdAt: existing.createdAt,
@@ -109,23 +143,22 @@ export function EditPage({ mode, items, onAdd, onUpdate }: EditPageProps) {
       url: data.url.trim(),
       note: data.note.trim(),
       tags: parseTags(data.tagsText),
-      status: data.status
+      status: data.status,
     }
-    reset();
-    onUpdate(item);
-    navigate(`/item/${existing.id}`);
+    reset()
+    onUpdate?.(item)
+    navigate(`/item/${existing.id}`)
   }
 
   return (
     <section className="panel">
-      <div className="todo-banner">
-        <strong>{mode === 'create' ? 'Шаг 3' : 'Шаг 8'}.</strong> Форма на react-hook-form.
-        Save → смотри Console (добавление на полку — шаг 4).
-      </div>
       <h2 className="panel__title">{pageTitle}</h2>
-      <p className="panel__muted">Controlled через RHF (<code>register</code>), не ручной useState.</p>
 
-      <form className="form-grid" onSubmit={mode === "create" ? handleSubmit(onSubmit) : handleSubmit(onUpdateSubmit)} noValidate>
+      <form
+        className="form-grid"
+        onSubmit={mode === 'create' ? handleSubmit(onSubmit) : handleSubmit(onUpdateSubmit)}
+        noValidate
+      >
         <div className="field">
           <label htmlFor="title">Title</label>
           <input
